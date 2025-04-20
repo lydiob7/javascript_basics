@@ -1,0 +1,27 @@
+html {
+    color-scheme: light dark;
+    font-family: system-ui, sans-serif;
+}
+
+h1 {
+    text-align: center;
+}
+
+.main-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 24px;
+    list-style: none;
+    padding: 0;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.main-list li {
+}
+
+.main-list li img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+}
