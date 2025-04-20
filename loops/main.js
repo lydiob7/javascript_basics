@@ -34,6 +34,27 @@ document.addEventListener("DOMContentLoaded", () => {
 
   /* =============== Ejemplos de loops ===================== */
   getRMCharacters().then((characters) => {
-    console.log(characters);
+    // for (let i = 0; i < characters.length; i++) {
+    //   renderListItem(characters[i]);
+    // }
+    // for (const character of characters) {
+    //   renderListItem(character);
+    // }
+    // characters.forEach((character) => {
+    //   renderListItem(character);
+    // });
+    // const rickCharacters = characters.filter((character) => {
+    //   if (character.name.toLowerCase().includes("rick")) return true;
+    //   return false;
+    // });
+    // rickCharacters.forEach((character) => renderListItem(character));
+    // const updatedCharacters = characters.map((character) => {
+    //   console.log(character);
+    //   return {
+    //     ...character,
+    //     name: `Name: ${character.name} - Species: ${character.species}`,
+    //   };
+    // });
+    // updatedCharacters.forEach((character) => renderListItem(character));
   });
 });
