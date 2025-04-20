@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
+  /* ================ Funcion para mostrar los resultados en el DOM ======== */
   function renderListItem(character) {
     if (!character) return;
 
@@ -24,12 +25,14 @@ document.addEventListener("DOMContentLoaded", () => {
     listElement.appendChild(listItemElement);
   }
 
+  /* =============== Funcion para obtener la lista desde la API de Rick & Morty ========== */
   async function getRMCharacters() {
     const request = await fetch("https://rickandmortyapi.com/api/character");
     const characters = (await request.json())?.results;
     return characters || [];
   }
 
+  /* =============== Ejemplos de loops ===================== */
   getRMCharacters().then((characters) => {
     console.log(characters);
   });
