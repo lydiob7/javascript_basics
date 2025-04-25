@@ -37,6 +37,16 @@ document.addEventListener("DOMContentLoaded", () => {
     // for (let i = 0; i < characters.length; i++) {
     //   renderListItem(characters[i]);
     // }
+    // let i = 0;
+    // while (i < characters.length) {
+    //   renderListItem(characters[i]);
+    //   i++;
+    // }
+    // let i = 0;
+    // do {
+    //   renderListItem(characters[i]);
+    //   i++;
+    // } while (i < characters.length);
     // for (const character of characters) {
     //   renderListItem(character);
     // }
