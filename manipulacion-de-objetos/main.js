@@ -1,4 +1,12 @@
 document.addEventListener("DOMContentLoaded", () => {
+  function renderText(text) {
+    const containerEl = document.querySelector("#container");
+
+    const newElement = document.createElement("div");
+    newElement.innerText = text;
+    containerEl.appendChild(newElement);
+  }
+
   async function getRMCharacter(id = "1") {
     const request = await fetch(
       `https://rickandmortyapi.com/api/character/${id}`,
@@ -8,6 +16,28 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   getRMCharacter(15).then((character) => {
-    console.log(character);
+    // renderText(JSON.stringify(character, undefined, 2));
+    // renderText(character.name);
+    // renderText(character["species"]);
+    // renderText(character.location.name);
+    // character.type = "Dibujito";
+    // renderText(character.type);
+    // delete character.gender;
+    // renderText(character.gender);
+    // for (const key in character) {
+    //   renderText(key);
+    // }
+    // Object.keys(character).forEach((key) => {
+    //   renderText(JSON.stringify(character[key], undefined, 2));
+    // });
+    // Object.values(character).forEach((value) => {
+    //   renderText(value);
+    // });
+    // Object.entries(character).forEach((entry) => {
+    //   renderText(`${entry[0]}: ${entry[1]}`);
+    // });
+    // Object.getOwnPropertyNames(character).forEach((key) => {
+    //   renderText(key);
+    // });
   });
 });
