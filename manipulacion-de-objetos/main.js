@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
+  // Renderizar cadena de texto en el HTML
   function renderText(text) {
     const containerEl = document.querySelector("#container");
 
@@ -7,6 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
     containerEl.appendChild(newElement);
   }
 
+  // Hacer la peticion a la API de un personaje
   async function getRMCharacter(id = "1") {
     const request = await fetch(
       `https://rickandmortyapi.com/api/character/${id}`,
@@ -15,6 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return characters || null;
   }
 
+  // Funcion principal
   getRMCharacter(15).then((character) => {
     // renderText(JSON.stringify(character, undefined, 2));
     // renderText(character.name);
