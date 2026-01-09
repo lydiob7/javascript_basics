@@ -13,7 +13,7 @@ const myUndefined = undefined;
 
 const stringWithSingleQuotes = 'Se pueden usar comillas simples';
 const combinedQuotes =
-  "Puedo usar comillas simples ' dentro de comillas dobles y al reves. También puedo usar \" escapando con una barra invertida";
+  "Puedo usar 'comillas simples'  dentro de comillas dobles y al reves. También puedo usar \" escapando con una barra invertida";
 const anotherString = `También "backticks", esto permite user variables dentro de la cadena de texto como: ${myString}`;
 const multilineString = `
 Praesent quis orci sit amet ante facilisis suscipit. Integer in eros molestie, ultricies arcu ac, cursus quam. Nulla facilisi. Ut egestas semper magna ac condimentum. Aliquam erat volutpat. Sed bibendum sollicitudin orci, at viverra metus vehicula sed.
@@ -30,4 +30,12 @@ Sed at risus vel nulla consequat fermentum. Donec et orci mauris. Nullam tempor 
 const myBigint = 90194012394501950n;
 const mySymbol = Symbol("simbolo");
 
-/* ======================= Datos complejos ========================= */
+/* ======================= Objetos ========================= */
+
+const myObject = {
+  name: "Nombre",
+  type: "Tipo",
+  num: 12,
+};
+
+const myArray = [1, 2, 3, 4];
