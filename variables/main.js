@@ -1,15 +1,17 @@
 /* ======================= Declaración de variables ========================= */
-var myFirstVariable;
-myFirstVariable = "Esto es un string (cadena de texto)";
+let nombre = "Juan";
 
-var secondVariable = "Se puede asignar un valor en la misma declaración";
+let edad;
 
-/* ======================= Forma moderna ========================= */
+edad = 34;
 
-let variable3;
+edad = 12;
 
-let variable4 = "Igual que con var";
+const fechaDeNacimiento = "09-04-1991";
 
-variable3 = 3;
+var altura = 171;
 
-const thisIsAConstant = "Valor inmutable";
+let $algo;
+
+const a = "Pedro";
+const nombreDePedro = "Pedro";
