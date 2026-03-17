@@ -29,11 +29,24 @@ h1 {
 .card img {
   width: 100px;
   height: 100px;
-  object-fit: cover;
+  object-fit: scale-down;
   border-radius: 50%;
 }
 
 .tipo {
   font-size: 0.75rem;
   color: #888;
+}
+
+.cta-btn {
+  cursor: pointer;
+  border: 1px solid white;
+  border-radius: 4px;
+  background: transparent;
+  padding: 5px 10px;
+}
+.cta-btn:hover {
+  background: rgba(255, 255, 255, 0.8);
+  color: black;
+  border-color: black;
 }
