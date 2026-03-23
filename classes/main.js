@@ -97,7 +97,7 @@ function renderPersonaje(personaje) {
   const btn = document.createElement("button");
   btn.textContent = "Ver detalles";
   btn.classList.add("cta-btn");
-  btn.addEventListener("click", () => {});
+  btn.addEventListener("click", handleShowDetails);
 
   const card = document.createElement("div");
   card.className = "card";
@@ -107,6 +107,58 @@ function renderPersonaje(personaje) {
   card.append(img, nombre, tipo, btn);
 
   document.getElementById("personajes").appendChild(card);
+}
+
+function handleShowDetails(ev) {
+  const dialogElement = document.querySelector("#personaje-dialog");
+  const personajeDetailsContainer = dialogElement.querySelector(
+    ".personaje-container",
+  );
+  dialogElement.showModal();
+
+  const personajeTipo = ev.target.parentNode?.getAttribute(
+    "data-personaje-tipo",
+  );
+  const personajeId = ev.target.parentNode?.getAttribute("data-personaje-id");
+  const personajeUrl =
+    personajeTipo === "PersonajeDragonBall"
+      ? `${PersonajeDragonBall.getApiBaseUrl()}/characters/${personajeId}`
+      : `${PersonajeSimpson.getApiBaseUrl()}/characters/${personajeId}`;
+
+  fetch(personajeUrl)
+    .then((response) => {
+      if (response.ok) {
+        response
+          .json()
+          .then((data) => {
+            const personaje =
+              personajeTipo === "PersonajeDragonBall"
+                ? new PersonajeDragonBall(data.id, data.name, data.image)
+                : new PersonajeSimpson(
+                    data.id,
+                    data.name,
+                    PersonajeSimpson.getApiImgBaseUrl() + data.portrait_path,
+                  );
+
+            personajeDetailsContainer.innerHTML = "";
+            const img = document.createElement("img");
+            img.src = personaje.imagen;
+            img.alt = personaje.nombre;
+
+            const nombre = document.createElement("h3");
+            nombre.textContent = personaje.nombre;
+
+            const tipo = document.createElement("span");
+            tipo.className = "tipo";
+            tipo.textContent = personaje.getTipo();
+
+            personajeDetailsContainer.append(img, nombre, tipo);
+            console.log(personaje);
+          })
+          .catch((error) => console.error(error));
+      }
+    })
+    .catch((error) => console.error(error));
 }
 
 // ================== Entry point =========================================
