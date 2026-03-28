@@ -1,6 +1,10 @@
 // ================== Clase base =========================================
 
+const ADMIN_PASSWORD = "password";
+
 class Personaje {
+  #secreto = "Shhhh! Esto es un secreto";
+
   constructor(id, nombre, imagen) {
     this.id = id;
     this.nombre = nombre;
@@ -9,6 +13,28 @@ class Personaje {
 
   saludar() {
     alert(`Hola! Me llamo ${this.nombre}`);
+  }
+
+  #guardarSecreto(nuevoSecreto) {
+    this.#secreto = nuevoSecreto;
+  }
+
+  get secreto() {
+    return `El secreto empieza con la letra ${this.#secreto[0]} y tiene ${this.#secreto.length} caracteres de largo`;
+  }
+
+  #asegurarQueUsuarioSeaAdmin() {
+    return prompt("Escriba la contraseña de administrador") === ADMIN_PASSWORD;
+  }
+
+  set secreto(nuevoSecreto) {
+    const esAdmin = this.#asegurarQueUsuarioSeaAdmin();
+    if (esAdmin) {
+      this.#guardarSecreto(nuevoSecreto);
+      alert("Secreto guardado");
+    } else {
+      alert("No es admin, no se puede guardar el secreto");
+    }
   }
 
   getTipo() {
@@ -88,102 +114,15 @@ async function fetchPersonajesDragonBall() {
   return data.items.map((p) => new PersonajeDragonBall(p.id, p.name, p.image));
 }
 
-// ================== Utilidades =========================================
-
-function shuffle(arr) {
-  return arr.sort(() => Math.random() - 0.5);
-}
-
-// ================== Render en pantalla =========================================
-
-function renderPersonaje(personaje) {
-  const img = document.createElement("img");
-  img.src = personaje.imagen;
-  img.alt = personaje.nombre;
-
-  const nombre = document.createElement("h3");
-  nombre.textContent = personaje.nombre;
-
-  const tipo = document.createElement("span");
-  tipo.className = "tipo";
-  tipo.textContent = personaje.getTipo();
-
-  const btn = document.createElement("button");
-  btn.textContent = "Ver detalles";
-  btn.classList.add("cta-btn");
-  btn.addEventListener("click", handleShowDetails);
-
-  const card = document.createElement("div");
-  card.className = "card";
-  card.id = `${personaje.getTipo()}-${personaje.id}`;
-  card.setAttribute("data-personaje-tipo", personaje.getTipo());
-  card.setAttribute("data-personaje-id", personaje.id);
-  card.append(img, nombre, tipo, btn);
-
-  document.getElementById("personajes").appendChild(card);
-}
-
-function handleShowDetails(ev) {
-  const dialogElement = document.querySelector("#personaje-dialog");
-  const personajeDetailsContainer = dialogElement.querySelector(
-    ".personaje-container",
-  );
-  dialogElement.showModal();
-
-  const personajeTipo = ev.target.parentNode?.getAttribute(
-    "data-personaje-tipo",
-  );
-  const personajeId = ev.target.parentNode?.getAttribute("data-personaje-id");
-  const personajeUrl =
-    personajeTipo === "PersonajeDragonBall"
-      ? `${PersonajeDragonBall.getApiBaseUrl()}/characters/${personajeId}`
-      : `${PersonajeSimpson.getApiBaseUrl()}/characters/${personajeId}`;
-
-  fetch(personajeUrl)
-    .then((response) => {
-      if (response.ok) {
-        response
-          .json()
-          .then((data) => {
-            const personaje =
-              personajeTipo === "PersonajeDragonBall"
-                ? new PersonajeDragonBall(data.id, data.name, data.image)
-                : new PersonajeSimpson(
-                    data.id,
-                    data.name,
-                    PersonajeSimpson.getApiImgBaseUrl() + data.portrait_path,
-                    data.phrases,
-                  );
-
-            personajeDetailsContainer.innerHTML = "";
-            const img = document.createElement("img");
-            img.src = personaje.imagen;
-            img.alt = personaje.nombre;
-
-            const nombre = document.createElement("h3");
-            nombre.textContent = personaje.nombre;
-
-            const tipo = document.createElement("span");
-            tipo.className = "tipo";
-            tipo.textContent = personaje.getTipo();
-
-            const hiButton = document.createElement("button");
-            hiButton.className = "hi-btn";
-            hiButton.textContent = "Saludar";
-            hiButton.addEventListener("click", () => personaje.saludar());
-
-            personajeDetailsContainer.append(img, nombre, tipo, hiButton);
-            console.log(data);
-          })
-          .catch((error) => console.error(error));
-      }
-    })
-    .catch((error) => console.error(error));
-}
-
 // ================== Entry point =========================================
 
 async function main() {
+  // const miPrimerPersonaje = new Personaje(
+  //   1,
+  //   "Homero Simpson",
+  //   "https://cdn.thesimpsonsapi.com/200/character/1.webp",
+  // );
+  // renderPersonaje(miPrimerPersonaje);
   const [simpsons, dragonball] = await Promise.all([
     fetchPersonajesSimpson(),
     fetchPersonajesDragonBall(),
