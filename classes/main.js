@@ -7,6 +7,10 @@ class Personaje {
     this.imagen = imagen;
   }
 
+  saludar() {
+    alert(`Hola! Me llamo ${this.nombre}`);
+  }
+
   getTipo() {
     return this.constructor.name;
   }
@@ -18,8 +22,17 @@ class PersonajeSimpson extends Personaje {
   static #apiBaseUrl = "https://thesimpsonsapi.com/api";
   static #apiImgBaseUrl = "https://cdn.thesimpsonsapi.com/200";
 
-  constructor(id, nombre, imagen) {
+  constructor(id, nombre, imagen, frases) {
     super(id, nombre, imagen);
+
+    this.frases = frases || [];
+  }
+
+  saludar() {
+    const fraseRandom =
+      this.frases[Math.floor(Math.random() * this.frases.length)] ||
+      `Hola! Mi nombre es ${this.nombre}`;
+    alert(fraseRandom);
   }
 
   getPersonajeUrl() {
@@ -62,6 +75,7 @@ async function fetchPersonajesSimpson() {
         p.id,
         p.name,
         PersonajeSimpson.getApiImgBaseUrl() + p.portrait_path,
+        p.phrases,
       ),
   );
 }
@@ -138,6 +152,7 @@ function handleShowDetails(ev) {
                     data.id,
                     data.name,
                     PersonajeSimpson.getApiImgBaseUrl() + data.portrait_path,
+                    data.phrases,
                   );
 
             personajeDetailsContainer.innerHTML = "";
@@ -152,8 +167,13 @@ function handleShowDetails(ev) {
             tipo.className = "tipo";
             tipo.textContent = personaje.getTipo();
 
-            personajeDetailsContainer.append(img, nombre, tipo);
-            console.log(personaje);
+            const hiButton = document.createElement("button");
+            hiButton.className = "hi-btn";
+            hiButton.textContent = "Saludar";
+            hiButton.addEventListener("click", () => personaje.saludar());
+
+            personajeDetailsContainer.append(img, nombre, tipo, hiButton);
+            console.log(data);
           })
           .catch((error) => console.error(error));
       }
