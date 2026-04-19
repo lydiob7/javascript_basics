@@ -16,7 +16,7 @@ function renderPersonaje(personaje) {
 
   const tipo = document.createElement("span");
   tipo.className = "tipo";
-  tipo.textContent = personaje.getTipo();
+  tipo.textContent = personaje.getTipo?.();
 
   const btn = document.createElement("button");
   btn.textContent = "Ver detalles";
@@ -25,8 +25,8 @@ function renderPersonaje(personaje) {
 
   const card = document.createElement("div");
   card.className = "card";
-  card.id = `${personaje.getTipo()}-${personaje.id}`;
-  card.setAttribute("data-personaje-tipo", personaje.getTipo());
+  card.id = `${personaje.getTipo?.()}-${personaje.id}`;
+  card.setAttribute("data-personaje-tipo", personaje.getTipo?.());
   card.setAttribute("data-personaje-id", personaje.id);
   card.append(img, nombre, tipo, btn);
 
@@ -74,7 +74,7 @@ function handleShowDetails(ev) {
 
     const tipo = document.createElement("span");
     tipo.className = "tipo";
-    tipo.textContent = personaje.getTipo();
+    tipo.textContent = personaje.getTipo?.();
 
     const hiButton = document.createElement("button");
     hiButton.className = "hi-btn";
