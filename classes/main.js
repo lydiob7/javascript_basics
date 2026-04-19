@@ -16,7 +16,7 @@ function renderPersonaje(personaje) {
 
   const tipo = document.createElement("span");
   tipo.className = "tipo";
-  tipo.textContent = personaje.getTipo();
+  tipo.textContent = personaje.getTipo?.();
 
   const btn = document.createElement("button");
   btn.textContent = "Ver detalles";
@@ -25,8 +25,8 @@ function renderPersonaje(personaje) {
 
   const card = document.createElement("div");
   card.className = "card";
-  card.id = `${personaje.getTipo()}-${personaje.id}`;
-  card.setAttribute("data-personaje-tipo", personaje.getTipo());
+  card.id = `${personaje.getTipo?.()}-${personaje.id}`;
+  card.setAttribute("data-personaje-tipo", personaje.getTipo?.());
   card.setAttribute("data-personaje-id", personaje.id);
   card.append(img, nombre, tipo, btn);
 
@@ -74,7 +74,7 @@ function handleShowDetails(ev) {
 
     const tipo = document.createElement("span");
     tipo.className = "tipo";
-    tipo.textContent = personaje.getTipo();
+    tipo.textContent = personaje.getTipo?.();
 
     const hiButton = document.createElement("button");
     hiButton.className = "hi-btn";
@@ -125,10 +125,39 @@ function handleShowDetails(ev) {
 
 // ================== Clase base =========================================
 
-class Personaje {}
+class Personaje {
+  constructor(id, nombre, imagen) {
+    this.id = id;
+    this.nombre = nombre;
+    this.imagen = imagen;
+  }
+
+  saludar() {
+    alert(`Hola! Me llamo ${this.nombre}`);
+  }
+
+  getTipo() {
+    return this.constructor.name;
+  }
+}
 
 // ================== Entry point =========================================
 
-async function main() {}
+async function main() {
+  const miPrimerPersonaje = new Personaje(
+    1,
+    "Homero Simpson",
+    "https://cdn.thesimpsonsapi.com/200/character/1.webp",
+  );
+
+  const miSegundoPersonaje = new Personaje(
+    2,
+    "Marge Simpson",
+    "https://cdn.thesimpsonsapi.com/200/character/2.webp",
+  );
+
+  renderPersonaje(miPrimerPersonaje);
+  renderPersonaje(miSegundoPersonaje);
+}
 
 main();
