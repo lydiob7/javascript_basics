@@ -125,20 +125,106 @@ function handleShowDetails(ev) {
 
 // ================== Clase base =========================================
 
+const ADMIN_PASSWORD = "password";
+
 class Personaje {
-  constructor(id, nombre, imagen) {
+  #secreto = "Shhh! Esto es un secreto!";
+
+  static #apiBaseUrl = "https://thesimsponsapi.com/api";
+
+  constructor(id, nombre, imagen, anoNacimiento) {
     this.id = id;
     this.nombre = nombre;
     this.imagen = imagen;
+    this.anoNacimiento = anoNacimiento;
   }
 
   saludar() {
     alert(`Hola! Me llamo ${this.nombre}`);
   }
 
+  #guardarSecreto(nuevoSecreto) {
+    this.#secreto = nuevoSecreto;
+  }
+
+  get edad() {
+    return new Date().getFullYear() - this.anoNacimiento;
+  }
+
+  static getApiBaseUrl() {
+    return this.#apiBaseUrl;
+  }
+
+  get secreto() {
+    return `El secreto empieza con la letra ${this.#secreto[0]} y tiene ${this.#secreto.length} caracteres de largo.`;
+  }
+
+  #asegurarQueUsuarioSeaAdmin() {
+    return prompt("Escriba la contraseña de administrador") === ADMIN_PASSWORD;
+  }
+
+  set secreto(nuevoSecreto) {
+    const isAdmin = this.#asegurarQueUsuarioSeaAdmin();
+    if (isAdmin) {
+      this.#guardarSecreto(nuevoSecreto);
+      alert("Secreto guardado");
+    } else {
+      alert("No es admin, no se puede guardar el secreto");
+    }
+    // ================== Petición de personajes =========================================
+
+    async function fetchPersonajesSimpson() {
+      const res = await fetch(PersonajeSimpson.getApiBaseUrl() + "/characters");
+      const data = await res.json();
+      return data.results?.map(
+        (p) =>
+          new PersonajeSimpson(
+            p.id,
+            p.name,
+            PersonajeSimpson.getApiImgBaseUrl() + p.portrait_path,
+            p.phrases,
+          ),
+      );
+    }
+
+    async function fetchPersonajesDragonBall() {
+      const res = await fetch(
+        PersonajeDragonBall.getApiBaseUrl() + "/characters?limit=10",
+      );
+      const data = await res.json();
+      return data.items.map(
+        (p) => new PersonajeDragonBall(p.id, p.name, p.image),
+      );
+    }
+  }
+
   getTipo() {
     return this.constructor.name;
   }
+}
+
+// ================== Petición de personajes =========================================
+
+async function fetchPersonajesSimpson() {
+  const res = await fetch(PersonajeSimpson.getApiBaseUrl() + "/characters");
+  const data = await res.json();
+  return data.results?.map(
+    (p) =>
+      new PersonajeSimpson(
+        p.id,
+        p.name,
+        PersonajeSimpson.getApiImgBaseUrl() + p.portrait_path,
+        p.phrases,
+      ),
+  );
+}
+
+async function fetchPersonajesDragonBall() {
+  const res = await fetch(
+    PersonajeDragonBall.getApiBaseUrl() + "/characters?limit=10",
+  );
+  const data = await res.json();
+  return data.items.map((p) => new PersonajeDragonBall(p.id, p.name, p.image));
 }
 
 // ================== Entry point =========================================
@@ -148,12 +234,14 @@ async function main() {
     1,
     "Homero Simpson",
     "https://cdn.thesimpsonsapi.com/200/character/1.webp",
+    1960,
   );
 
   const miSegundoPersonaje = new Personaje(
     2,
     "Marge Simpson",
     "https://cdn.thesimpsonsapi.com/200/character/2.webp",
+    1960,
   );
 
   renderPersonaje(miPrimerPersonaje);
