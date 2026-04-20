@@ -171,32 +171,6 @@ class Personaje {
     } else {
       alert("No es admin, no se puede guardar el secreto");
     }
-    // ================== Petición de personajes =========================================
-
-    async function fetchPersonajesSimpson() {
-      const res = await fetch(PersonajeSimpson.getApiBaseUrl() + "/characters");
-      const data = await res.json();
-      return data.results?.map(
-        (p) =>
-          new PersonajeSimpson(
-            p.id,
-            p.name,
-            PersonajeSimpson.getApiImgBaseUrl() + p.portrait_path,
-            p.phrases,
-          ),
-      );
-    }
-
-    async function fetchPersonajesDragonBall() {
-      const res = await fetch(
-        PersonajeDragonBall.getApiBaseUrl() + "/characters?limit=10",
-      );
-      const data = await res.json();
-      return data.items.map(
-        (p) => new PersonajeDragonBall(p.id, p.name, p.image),
-      );
-    }
-  }
 
   getTipo() {
     return this.constructor.name;
