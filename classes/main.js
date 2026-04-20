@@ -171,6 +171,7 @@ class Personaje {
     } else {
       alert("No es admin, no se puede guardar el secreto");
     }
+  }
 
   getTipo() {
     return this.constructor.name;
